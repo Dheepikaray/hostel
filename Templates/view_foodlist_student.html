@@ -1,0 +1,63 @@
+{% extends "student.html" %}
+
+{% load crispy_forms_filters %}
+{% block content %}
+<!--<table class="table table-bordered">-->
+<!--    <tr>-->
+<!--        <th>Day</th>-->
+<!--        <th>BreakFast</th>-->
+<!--        <th>Lunch</th>-->
+<!--        <th>Dinner</th>-->
+
+<!--    </tr>-->
+<!--    {% for x in data %}-->
+<!--    <tr>-->
+<!--        <td>{{ x.day }}</td>-->
+<!--        <td>{{ x.breakfast }}</td>-->
+<!--        <td>{{ x.lunch }}</td>-->
+<!--        <td>{{ x.dinner }}</td>-->
+
+<!--    </tr>-->
+<!--    {% endfor %}-->
+<!--</table>-->
+<!--{% for x in data %}-->
+
+<!--<div class="card text-white bg-primary mb-3" style="max-width: 18rem;">-->
+<!--  <div class="card-header">Menu</div>-->
+<!--  <div class="card-body">-->
+<!--    <h5 class="card-title">{{ x.day }}</h5>-->
+<!--    <p class="card-text">{{ x.breakfast }}</p>-->
+<!--    <p class="card-text">{{ x.lunch }}</p>-->
+<!--    <p class="card-text">{{ x.dinner }}</p>-->
+
+
+<!--  </div>-->
+<!--</div>-->
+<!--{% endfor %}-->
+<div class="container">
+    {% for x in data %}
+        {% if forloop.counter0|divisibleby:2 %}
+            <div class="row">
+        {% endif %}
+
+        <div class="col-md-6">
+            <div class="menu-card card text-white bg-primary mb-3" style="max-width: 18rem;">
+                <div class="card-header header-primary">Menu</div>
+                <div class="card-body">
+                    <h5 class="card-title">{{ x.day }}</h5>
+                    <p class="card-text">{{ x.breakfast }}</p>
+                    <p class="card-text">{{ x.lunch }}</p>
+                    <p class="card-text">{{ x.dinner }}</p>
+                </div>
+
+            </div>
+        </div>
+
+        {% if forloop.counter|divisibleby:2 or forloop.last %}
+            </div>
+        {% endif %}
+    {% endfor %}
+</div>
+
+
+         {% endblock %}

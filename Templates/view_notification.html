@@ -1,0 +1,39 @@
+{% extends "admin.html" %}
+
+{% load crispy_forms_filters %}
+{% block content %}
+<table class="table table-bordered">
+    <tr>
+        <th>Date</th>
+        <th>Description</th>
+        <th>Update</th>
+        <th>Delete</th>
+    </tr>
+    {% for y in data %}
+    <tr>
+        <td>{{ y.date1 }}</td>
+        <td>{{ y.descriptions }}</td>
+        <td>
+            <form method="POST" action="{% url 'update3' y.id %}">
+                {% csrf_token %}
+
+                {{ntf_form|crispy}}
+            <input type="submit" class="btn btn-danger" value="Update" />
+            </form>
+        </td>
+
+        <td>
+             <form action="{% url 'deltse' y.id %}" method="POST" >
+                                {% csrf_token %}
+                <input type="submit" class="btn btn-danger" value="Delete" />
+
+             </form>
+        </td>
+
+
+
+
+    </tr>
+    {% endfor %}
+</table>
+         {% endblock %}

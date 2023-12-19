@@ -1,0 +1,46 @@
+{% extends "admin.html" %}
+{% block content %}
+<table class="table table-bordered">
+    <tr>
+        <th>Name</th>
+        <th>Reg_No</th>
+        <th>Gender</th>
+        <th>Address</th>
+        <th>Relation</th>
+        <th>Student Name</th>
+        <th>Phone</th>
+        <th>Email</th>
+        <th>update</th>
+        <th>delete</th>
+    </tr>
+    {% for x in data %}
+    <tr>
+        <td>{{ x.name }}</td>
+        <td>{{ x.reg_no }}</td>
+        <td>{{ x.gender }}</td>
+        <td>{{ x.address }}</td>
+        <td>{{ x.relation }}</td>
+        <td>{{ x.student_name }}</td>
+        <td>{{ x.phone }}</td>
+        <td>{{ x.email }}</td>
+
+
+        <td>
+            <input type="submit" class="btn btn-danger" value="Update" />
+        </td>
+
+        <td>
+            <form action="{% url 'delts' x.id %}" method="POST" >
+                                {% csrf_token %}
+                <input type="submit" class="btn btn-danger" value="Delete" />
+
+            </form>
+        </td>
+    </td>
+
+
+
+    </tr>
+    {% endfor %}
+</table>
+         {% endblock %}
