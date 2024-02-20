@@ -1,0 +1,26 @@
+{% extends "admin.html" %}
+
+{% load crispy_forms_filters %}
+{% block content %}
+<table class="table table-bordered">
+    <tr>
+        <th>Room</th>
+        <th>Student1</th>
+        <th>Student2</th>
+        <th>Student3</th>
+    </tr>
+    {% for y in data %}
+    <tr>
+        <td>{{ y.no }}</td>
+        <td>{{ y.student1 }}</td>
+        <td>{{ y.student2 }}</td>
+        <td>{{ y.student3 }}</td>
+
+
+
+
+
+    </tr>
+    {% endfor %}
+</table>
+         {% endblock %}

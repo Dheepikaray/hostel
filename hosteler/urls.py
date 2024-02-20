@@ -14,7 +14,7 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('new/', views.new, name='new'),
+    path('', views.new, name='new'),
     path('base/', views.base, name='base'),
     path('student/', views.student, name='student'),
     path('parent/', views.parent, name='parent'),
@@ -34,9 +34,23 @@ urlpatterns = [
     path('ntfreg', views.ntf_register, name='ntfreg'),
     path('update3/<int:id>/', views.update_notification, name='update3'),
     path('view3', views.view3, name='view3'),
-
+    path('view4', views.view4, name='view4'),
+    path('view5', views.view5, name='view5'),
+    path('feedback', views.giveFeedback, name='feedback'),
+    path('update4/<int:id>/', views.replytoFeedback, name='update4'),
+    path('view6', views.view6, name='view6'),
+    path('rooms', views.add_room, name='rooms'),
+    path('view7',views.view_vacancy, name='view7'),
+    path('vacancy', views.create_vacancy, name='vacancy'),
+    path('delvacancy/<int:id>/',views.del_vacancy, name='delvacancy'),
+    path('view8', views.view_book, name='view8'),
+    path('appoint/<int:id>/', views.take_appointment, name='appoint'),
+    path('cancel/<int:id>/', views.cancel_appointment, name='cancel'),
+    path('view9', views.appointments, name='view9'),
 
 ]
+
+
 
 # <!DOCTYPE html>
 # <html lang="en">

@@ -4,7 +4,8 @@ from django.contrib.auth.forms import UserCreationForm
 from django import forms
 from django.contrib.auth.models import User
 
-from hosteler.models import User_Student, User_Parent, Register, weekly_Food, notification
+from hosteler.models import User_Student, User_Parent, Register, weekly_Food, notification, feedback, rooms, vacancy, \
+    Appointment
 
 from django.contrib.auth.forms import UserCreationForm
 
@@ -67,3 +68,53 @@ class NotiFications(forms.ModelForm):
     class Meta:
         model = notification
         fields = ('date1','descriptions')
+
+class feedbacks(forms.ModelForm):
+
+    class Meta:
+        model = feedback
+        fields = ('subject',)
+
+class replyfeedback(forms.ModelForm):
+
+    class Meta:
+        model = feedback
+        fields = ('subject','reply',)
+
+
+class RoomCreationForm(forms.ModelForm):
+
+    class Meta:
+        model = rooms
+        fields = ('no', 'student1', 'student2', 'student3')
+
+class VacancyForm(forms.ModelForm):
+    ch_slot = (('1','1'),('2','2'),('3','3'))
+    slot = forms.ChoiceField(choices=ch_slot,widget=forms.RadioSelect)
+
+    class Meta:
+        model = vacancy
+        fields = ('no','slot','vacant',)
+
+
+
+from .models import Appointment
+
+class AppointmentForm(forms.ModelForm):
+    class Meta:
+        model = Appointment
+        fields = ['user', 'schedule', 'status']
+
+    # def __init__(self, *args, **kwargs):
+    #     super().__init__(*args, **kwargs)
+    #
+    #
+    # STATUS_CHOICES = (
+    #     (0, 'Pending'),
+    #     (1, 'Confirmed'),
+    #     (2, 'Cancelled'),
+    # )
+    #
+    # status = forms.ChoiceField(choices=STATUS_CHOICES, widget=forms.Select(attrs={'class': 'form-control'}))
+    #
+    #

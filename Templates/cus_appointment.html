@@ -1,0 +1,19 @@
+<!-- cus_appointment.html -->
+<!DOCTYPE html>
+{% extends 'admin.html' %}
+
+{% block content %}
+  <h2>Your Appointments</h2>
+  {% if appointments %}
+    <ul>
+      {% for appointment in appointments %}
+        <li>
+          {{ appointment.schedule.user }} - {{ appointment.schedule.slot }}
+
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No appointments found.</p>
+  {% endif %}
+{% endblock %}

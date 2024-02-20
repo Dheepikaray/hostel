@@ -1,0 +1,43 @@
+{% extends "admin.html" %}
+
+{% load crispy_forms_filters %}
+{% block content %}
+<table class="table table-bordered">
+    <tr>
+
+        <th>Subject</th>
+        <th>Date</th>
+        <th>Student</th>
+
+        <th>Post Your Reply</th>
+
+    </tr>
+    {% for y in data1 %}
+    <tr>
+        <td>{{ y.subject }}</td>
+        <td>{{ y.date }}</td>
+        <td>{{ y.user }}</td>
+
+        <td>
+            {% if y.reply == None or y.reply == "" %}
+            <form method="POST" action="{% url 'update4' y.id %}" class="d-inline-block">
+                {% csrf_token %}
+
+
+            <input type="submit" class="btn btn-danger" value="Reply" />
+
+            </form>
+            {% else %}
+            {{ y.reply }}
+            {% endif %}
+        </td>
+
+
+
+
+
+
+    </tr>
+    {% endfor %}
+</table>
+         {% endblock %}

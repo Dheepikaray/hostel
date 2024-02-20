@@ -1,4 +1,4 @@
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractUser, User
 from django.core.validators import RegexValidator
 from django.db import models
 from django.db.models import BooleanField
@@ -56,6 +56,40 @@ class weekly_Food(models.Model):
 class notification(models.Model):
     date1 = models.DateTimeField(default=timezone.now)
     descriptions = models.CharField(max_length=100)
+
+class feedback(models.Model):
+    user = models.ForeignKey('Register', on_delete=models.CASCADE)
+    date = models.DateField(auto_now=True)
+    subject = models.TextField(max_length=100)
+    reply = models.TextField(null=True,blank=True)
+
+
+class rooms(models.Model):
+    no = models.CharField(max_length=4)
+    student1 = models.ForeignKey('User_Student', on_delete=models.DO_NOTHING,related_name='student1')
+    student2 = models.ForeignKey('User_Student', on_delete=models.DO_NOTHING,related_name='student2')
+    student3 = models.ForeignKey('User_Student', on_delete=models.DO_NOTHING,related_name='student3')
+
+    def __str__(self):
+        return f'{self.no}'
+
+
+class vacancy(models.Model):
+    no = models.ForeignKey('rooms',on_delete=models.DO_NOTHING)
+    slot = models.IntegerField(default=0)
+    vacant = models.BooleanField(default=True)
+
+class Appointment(models.Model):
+    user = models.ForeignKey(User_Student, on_delete=models.CASCADE)
+    schedule = models.ForeignKey(vacancy, on_delete=models.CASCADE)
+    status = models.IntegerField(default=0)
+
+
+
+
+
+
+
 
 
 

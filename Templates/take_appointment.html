@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+{% extends 'admin.html' %}
+{% block content %}
+<div class="col-lg-8">
+    <div class="card">
+        <div class="card-header"><strong>Book Appointment</strong></div>
+        <div class="card-body card-block">
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label class=" form-control-label">Name</label>
+                    <input class="form-control" readonly value="{{schedule.user}}">
+                    </div>
+                <div class="form-group">
+                    <label class=" form-control-label">Room No</label>
+                    <input required class="form-control" readonly value="{{schedule.no}}">
+                    </div>
+                <div class="form-group">
+                    <label class=" form-control-label">Slot</label>
+                    <input required class="form-control" readonly value="{{schedule.slot}}">
+                </div>
+                <div class="form-actions form-group ">
+                    <div class="form-actions form-group "> <button type="submit" class="btn btn-primary btn-sm">Submit</button>
+                </div>
+                    {% for message in messages %}
+                    <div class="alert alert-primary" role="alert"> {{message}} </div>
+                    {% endfor %}
+            </form>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

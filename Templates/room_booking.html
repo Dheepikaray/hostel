@@ -1,0 +1,28 @@
+{% extends "admin.html" %}
+
+{% load crispy_forms_filters %}
+{% block content %}
+<table class="table table-bordered">
+    <tr>
+        <th>Room No</th>
+        <th>Vacancy</th>
+        <th>Booking</th>
+    </tr>
+    {% for y in data %}
+    <tr>
+        <td>{{ y.no }}</td>
+        <td>{{ y.slot }}</td>
+
+        <td><form action="{% url 'appoint' y.id %}">
+             <button type="submit" class="btn btn-primary">Book</button>
+        </form>
+
+        </td>
+
+
+
+
+    </tr>
+    {% endfor %}
+</table>
+         {% endblock %}

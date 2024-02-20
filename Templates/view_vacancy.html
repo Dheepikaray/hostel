@@ -1,0 +1,29 @@
+{% extends "admin.html" %}
+
+{% load crispy_forms_filters %}
+{% block content %}
+<table class="table table-bordered">
+    <tr>
+        <th>Room No</th>
+        <th>Vacancy</th>
+        <th>Delete</th>
+    </tr>
+    {% for y in data %}
+    <tr>
+        <td>{{ y.no }}</td>
+        <td>{{ y.slot }}</td>
+        <td>
+             <form action="{% url 'delvacancy' y.id %}" method="POST" >
+                                {% csrf_token %}
+                <input type="submit" class="btn btn-danger" value="Delete" />
+
+             </form>
+        </td>
+
+
+
+
+    </tr>
+    {% endfor %}
+</table>
+         {% endblock %}

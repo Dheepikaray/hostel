@@ -95,7 +95,7 @@ WSGI_APPLICATION = 'hostel.wsgi.application'
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "hosteler",
+        "NAME": "hostel_manage",
         "USER": "postgres",
         "PASSWORD": "1234",
         "HOST": "LOCALHOST",

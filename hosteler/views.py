@@ -3,8 +3,9 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
-from hosteler.forms import CustomUserForm, StudentForm, RegistrationForm, ParentForm, FoodForm, NotiFications
-from hosteler.models import User_Student, User_Parent, weekly_Food, notification
+from hosteler.forms import CustomUserForm, StudentForm, RegistrationForm, ParentForm, FoodForm, NotiFications, \
+    feedbacks, replyfeedback, RoomCreationForm, VacancyForm
+from hosteler.models import User_Student, User_Parent, weekly_Food, notification, feedback, rooms, vacancy, Appointment
 
 
 def new(request):
@@ -216,4 +217,166 @@ def update_notification(request,id):
 def view3(request):
     data =  notification.objects.all().order_by("id").values()
     return render(request, "view_notification.html", {"data": data})
+
+# Assuming you are using the feedback model
+# def fd_register(request):
+#     ntf_form = feedbacks()
+#
+#
+#
+#
+#     if request.method == 'POST':
+#         ntf_form = feedbacks(request.POST, request.FILES)
+#
+#         if ntf_form.is_valid():
+#
+#             ntf1 = ntf_form.save(commit=False)
+#             ntf1.save()
+#             return redirect('view4')
+#         # Render the form with errors if it's not valid
+#
+#     return render(request, "registerFeedback.html", {"ntf_form": ntf_form})
+# def update_feedback(request,id):
+#     fd_data = feedback.objects.get(id=id)
+#     fd_reg_form = feedbacks(instance=fd_data)
+#
+#     if request.method == 'POST':
+#         fd_reg_form1 = feedbacks(request.POST,request.FILES,instance=fd_data)
+#         if fd_reg_form1.is_valid():
+#             fd_reg_form1.save()
+#             return redirect("view4")
+#
+#     return render(request,'feedback_update.html',{'fd_form':fd_reg_form})
+
+
+def view4(request):
+    data1 =  feedback.objects.filter(user=request.user).order_by('-date')
+    return render(request, "feedback_student.html", {"data1": data1})
+
+def view5(request):
+    data1 =  feedback.objects.all()
+    return render(request, "feedback_admin.html", {"data1": data1})
+
+# Assuming you are using the feedback model
+# def reply_feedback_view(request):
+#     if request.method == 'POST':
+#         form = replyfeedback(request.POST)
+#         if form.is_valid():
+#             # Process the form data if needed
+#             form.save()
+#             return redirect('success_page')  # Redirect to a success page
+#     else:
+#         form = replyfeedback()
+#
+#     return render(request, 'feedback_update.html', {'form': form})
+
+def giveFeedback(request):
+    feed_form = feedbacks()
+    user1 = request.user
+    print(user1)
+
+    if request.method == "POST":
+        feed_form1 = feedbacks(request.POST)
+        print(user1)
+        if feed_form1.is_valid():
+            obj = feed_form1.save(commit=False)
+            obj.user = user1
+            obj.save()
+            return redirect('view4')
+    return render(request, "registerFeedback.html", {"feed_form": feed_form})
+
+def replytoFeedback(request, id):
+    data1 = feedback.objects.get(id=id)
+    feedback_form = replyfeedback(instance=data1)
+    if request.method =="POST":
+        feedback_form1 = replyfeedback(request.POST, instance=data1)
+        if feedback_form1.is_valid():
+            feedback_form1.save()
+            return redirect('view5')
+
+        return render(request,"feedback_update.html",{"feedback_form": feedback_form})
+
+def add_room(request):
+    rm_form = RoomCreationForm()
+    if request.method == 'POST':
+        rm_form1 = RoomCreationForm(request.POST)
+        if rm_form1.is_valid():
+            rm_form1.save()
+            return redirect('view6')
+
+        # Render the form with errors if it's not valid
+    return render(request, "registerroom.html", {"rm_form": rm_form})
+
+def view6(request):
+    data =  rooms.objects.all().order_by("id")
+    return render(request, "view_room.html", {"data": data})
+
+def create_vacancy(request):
+    vac_form = VacancyForm()
+    if request.method =='POST':
+        vac_form1 = VacancyForm(request.POST)
+        if vac_form1.is_valid():
+            vac_form1.save()
+    return render(request,'create_vacancy.html',{'vac_form':vac_form})
+
+def view_vacancy(request):
+    data = vacancy.objects.all()
+    return render(request,'view_vacancy.html',{'data':data})
+
+def del_vacancy(request,id):
+    if request.method == 'POST':
+
+        delt2 = vacancy.objects.get(id=id)
+
+        delt2.delete()
+
+
+        return redirect("view7")
+    return render(request,"view_vacancy.html")
+
+
+def view_book(request):
+    data = vacancy.objects.all()
+    return render(request,'room_booking.html',{'data':data})
+
+def take_appointment(request, id):
+    schedule = vacancy.objects.get(id=id)
+    u = User_Student.objects.get(user=request.user)
+    print(u)
+    appointment = Appointment.objects.filter(user=u, schedule=schedule)
+    print(appointment)
+    if appointment.exists():
+        messages.info(request, 'You Have Already Requested Appointment for this Schedule')
+    else:
+        if request.method == 'POST':
+            obj = Appointment()
+            obj.user = u
+            obj.schedule = schedule
+            obj.save()
+            schedule.vacant = False
+            schedule.save()
+            messages.info(request, 'Appointment Booked Successfully')
+    return render(request, 'take_appointment.html', {'schedule': schedule})
+
+
+def cancel_appointment(request, id):
+    appointment = Appointment.objects.get(id=id)
+    schedule = appointment.schedule
+
+
+    schedule.vacant = True
+    schedule.save()
+
+
+    appointment.delete()
+
+    messages.info(request, 'Appointment Canceled Successfully')
+    return redirect('view8')
+
+def appointments(request):
+    u = User_Student.objects.get(user=request.user)
+    a = Appointment.objects.filter(user=u)
+    return render(request, 'cus_appointment.html', {'appointment': a})
+
+
 
